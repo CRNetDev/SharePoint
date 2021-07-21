@@ -1,0 +1,85 @@
+<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+
+<script type="text/javascript">
+ function hideTOC() {
+  document.getElementById("theTOC").style.display = 'none';
+  document.getElementById("show").style.display = 'block';
+  document.getElementById("hide").style.display = 'none';
+ }
+
+ function showTOC() {
+   document.getElementById("theTOC").style.display = 'block';
+   document.getElementById("show").style.display = 'none';
+   document.getElementById("hide").style.display = 'block';
+
+ }
+</script>
+
+<div id="wikiTOC">
+ <table style="padding: 5px;">
+  <tr>
+   <td><div class="TOCheader">Table of Content</div></td>
+   <td>
+    <div class="closehide" id='hide'>[<a href='#' title='Click to hide' onClick="hideTOC()">Hide</a>]</div>
+    <div class="closehide" id='show'>[<a href='#' title='Click to show' onClick="showTOC()">Show</a>]</div>
+   </td>
+  </tr>
+ </table>
+
+ <div id='theTOC'>
+
+  <script type="text/javascript"> 
+
+   $(document).ready(function(){
+    var L1=0, L2=0, L3=0, L4=0;
+    $(".ms-rtestate-field > h1, .ms-wikicontent h1, .ms-rtestate-field > h2, .ms-wikicontent h2, .ms-rtestate-field > h3, .ms-wikicontent h3, .ms-rtestate-field > h4, .ms-wikicontent h4").each(function(i){
+     theLevel=$(this).get(0).tagName;
+     if (theLevel=="H1") {
+        L1=L1+1;
+        L2=0;
+        L3=0;
+        L4=0;
+        theLevelString=""+L1;
+     }
+     else if (theLevel=="H2") {
+      L2=L2+1;
+      L3=0;
+      L4=0;
+      theLevelString=""+L1+"."+L2;
+     }
+     else if (theLevel=="H3") {
+      L3=L3+1;
+      L4=0;
+      theLevelString=""+L1+"."+L2+"."+L3;
+     }
+     else {
+      L4=L4+1;
+      theLevelString=""+L1+"."+L2+"."+L3+"."+L4;
+     }
+
+     $encAnchor = $(this).text().trim();
+     $encAnchor = $encAnchor.replace(/\s/g, "_");
+     $encAnchor = encodeURIComponent($encAnchor);
+     $encAnchor = $encAnchor.replace(/%/g, "");
+
+
+     $(this).attr("id", $encAnchor );
+     $("#theTOC").append("<a href='#" + $encAnchor + "' class='wikiTOC-" + theLevel + "'>" + theLevelString + " " + $(this).text() + "</a><br />");
+    });
+   });
+
+   showTOC();
+  </script>
+ </div>
+</div>
+
+
+<style type="text/css">
+ #wikiTOC {border: 1px black solid; background-color: whitesmoke; float: left; padding: 10px; padding-top: 0px;}
+ #wikiTOC .TOCheader {font-size: 14px; font-weight: bold; text-align: center; padding: 5px;}
+ #wikiTOC .closehide {font-size: 11px; font-weight: normal;}
+ #wikiTOC a.wikiTOC-H1 {font-size:14px; font-weight: normal; }
+ #wikiTOC a.wikiTOC-H2 {font-size:14px; font-weight: normal; margin-left:10px; }
+ #wikiTOC a.wikiTOC-H3  {font-size:14px; font-weight: normal; margin-left: 20px; margin-bottom:3px;}
+ #wikiTOC a.wikiTOC-H4  {font-size:14px; font-weight: normal; margin-left: 28px; margin-bottom:3px;}
+</style>
